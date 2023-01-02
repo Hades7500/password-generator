@@ -1,19 +1,21 @@
-use std::{io, fs};
 use std::io::Write;
+use std::{fs, io};
 
-#[allow(unused)]
-#[allow(dead_code)]
+#[allow(while_true)]
 
 fn main() {
-    println!("Hello, world!");
-    let master_pwd: String = get_string("Enter your Master Password: ");
-    let mode = get_string("Do you want to add a new password or view existing ones? (add/view) ");
-    match mode.as_str() {
-        "add" => add(),
-        "view" => view(),
-        "q" => {println!("Quitting...");
-                return},
-        _ => println!("Invalid mode"),
+    let _master_pwd: String = get_string("Enter your Master Password: ");
+    while true {
+        let mode: String = get_string("Do you want to add a new password or view existing ones? (add/view) ").to_lowercase();
+        match mode.as_str() {
+            "add" => add(),
+            "view" => view(),
+            "q" => {
+                println!("Quitting...");
+                return;
+            }
+            _ => println!("Invalid mode"),
+        }
     }
 }
 
@@ -34,18 +36,16 @@ fn add() {
 }
 
 fn write(acc_name: String, pwd: String) {
-    let data = format!("{acc_name}: {pwd}");
+    let data: String = format!("{acc_name}: {pwd}");
 
     let mut file = fs::OpenOptions::new()
-    .write(true)
-    .append(true)
-    .open("./pwd.txt")
-    .unwrap();
+        .write(true)
+        .append(true)
+        .open("./pwd.txt")
+        .unwrap();
 
-    writeln!(file , "{data}").expect("Unable to write to file")
+    writeln!(file, "{data}").expect("Unable to write to file")
 }
-#[allow(unused)]
-#[allow(dead_code)]
 fn view() {
     let data: String = fs::read_to_string("./pwd.txt").expect("Unable to read file");
     println!("{data}")
