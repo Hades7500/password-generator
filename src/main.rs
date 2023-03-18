@@ -1,11 +1,9 @@
 use std::io::Write;
 use std::{fs, io};
 
-#[allow(while_true)]
-
 fn main() {
     let _master_pwd: String = get_string("Enter your Master Password: ");
-    while true {
+    loop {
         let mode: String = get_string("Do you want to add a new password or view existing ones? (add/view) ").to_lowercase();
         match mode.as_str() {
             "add" => add(),
